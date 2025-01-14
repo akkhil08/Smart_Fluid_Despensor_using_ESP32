@@ -1,6 +1,6 @@
-#define FLOW_SENSOR_PIN 14;    //This is the input pin on the Arduino
-#define RELAY_PIN 16 // ESP32 pin GPIO16, which connects to the pump the via the relay
-#define PULSES_PER_LITER 93988; // Replace with your flow sensor's pulses per liter value (from the datasheet)
+#define FLOW_SENSOR_PIN 14      //This is the input pin on the Arduino
+#define RELAY_PIN 16            // ESP32 pin GPIO16, which connects to the pump the via the relay
+#define PULSES_PER_LITER 93988  // Replace with your flow sensor's pulses per liter value (from the datasheet)
 
 volatile unsigned long pulseCount = 0;
 
