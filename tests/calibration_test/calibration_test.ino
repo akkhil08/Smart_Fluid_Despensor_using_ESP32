@@ -1,6 +1,6 @@
-#define FLOW_SENSOR_PIN 14      //This is the input pin on the Arduino
-#define RELAY_PIN 16            // ESP32 pin GPIO16, which connects to the pump the via the relay
-#define PULSES_PER_LITER 93988  // Replace with your flow sensor's pulses per liter value (from the datasheet)
+#define FLOW_SENSOR_PIN 4      //This is the input pin on the Arduino
+#define RELAY_PIN 18            // ESP32 pin GPIO16, which connects to the pump the via the relay
+#define PULSES_PER_LITER 63120  // Replace with your flow sensor's pulses per liter value (from the datasheet)
 
 volatile unsigned long pulseCount = 0;
 
@@ -26,7 +26,7 @@ void calibrate(){
   unsigned long lastTime = millis();
   long unsigned int totalPulseCount = 0;
 
-  while(totalLiters <= 0.15){   // Run until 150ml fluid is transfered
+  while(totalLiters <= 0.1){   // Run until 150ml fluid is transfered
     unsigned long currentTime = millis();
     if (currentTime - lastTime >= 100) {
       detachInterrupt(digitalPinToInterrupt(FLOW_SENSOR_PIN)); // Disable interrupts temporarily to safely read pulseCount
