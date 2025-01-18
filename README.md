@@ -11,8 +11,8 @@
 ## To-do list:
 - [x] Calibration
 - [x] Mobile App  
-- [ ] Comm with Bluetooth
-- [ ] System intergrationa and testin
+- [x] Comm with Wifi
+- [ ] System intergrationa and testing
 - [ ] Demo video 
 - [ ] Presentation
 
