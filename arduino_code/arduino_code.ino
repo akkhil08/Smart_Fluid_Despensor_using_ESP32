@@ -1,7 +1,6 @@
-#include <HardwareSerial.h>
-
+#include "BluetoothSerial.h"
 // Use hardware serial (UART1) for Bluetooth communication
-HardwareSerial Bluetooth(1);  // UART1 for Bluetooth (you can choose UART2, or use another pin)
+BluetoothSerial BT;  // UART1 for Bluetooth (you can choose UART2, or use another pin)
 
 #define FLOW_SENSOR_PIN 4      // Input pin for flow sensor
 #define RELAY_PIN 18           // Output pin for pump relay
@@ -24,9 +23,9 @@ void calibrate(double targetVolume) {
   unsigned long lastTime = millis();
 
   // Notify Bluetooth client about the start of calibration
-  Bluetooth.print("Starting calibration for ");
-  Bluetooth.print(targetVolume);
-  Bluetooth.println(" mL...");
+  BT.print("Starting calibration for ");
+  BT.print(targetVolume);
+  BT.println(" mL...");
 
   digitalWrite(RELAY_PIN, HIGH); // Turn on the pump
 
@@ -44,26 +43,30 @@ void calibrate(double targetVolume) {
       lastTime = currentTime;
 
       // Send progress to Bluetooth
-      Bluetooth.print("Flow Rate (L/min): ");
-      Bluetooth.println(flowRate);
-      Bluetooth.print("Total Pulses: ");
-      Bluetooth.println(totalPulseCount);
-      Bluetooth.print("Total Liters: ");
-      Bluetooth.println(totalLiters * 1000);  // Convert Liters back to mL for display
+      BT.print("Flow Rate (L/min): ");
+      BT.println(flowRate);
+      BT.print("Total Pulses: ");
+      BT.println(totalPulseCount);
+      BT.print("Total Liters: ");
+      BT.println(totalLiters * 1000);  // Convert Liters back to mL for display
     }
   }
 
   // Stop the pump after reaching the target volume
   digitalWrite(RELAY_PIN, LOW);
-  Bluetooth.println("Calibration complete.");
-  Bluetooth.print("Total Pulses: ");
-  Bluetooth.println(totalPulseCount);
-  Bluetooth.print("Total Liters: ");
-  Bluetooth.println(totalLiters);
+  BT.println("Calibration complete.");
+  BT.print("Total Pulses: ");
+  BT.println(totalPulseCount);
+  BT.print("Total Liters: ");
+  BT.println(totalLiters);
 }
 
 // Setup function
 void setup() {
+  Serial.begin(115200);  // Start Serial Monitor
+  BT.begin("ESP32_Flow_Control");  // Set Bluetooth name for ESP32
+  Serial.println("Bluetooth is ready to pair!");
+
   // Initialize pins
   pinMode(RELAY_PIN, OUTPUT);
   pinMode(FLOW_SENSOR_PIN, INPUT_PULLUP);
@@ -71,29 +74,30 @@ void setup() {
   // Attach the interrupt to the flow sensor pin
   attachInterrupt(digitalPinToInterrupt(FLOW_SENSOR_PIN), pulseCounter, RISING);
 
-  // Initialize hardware serial communication for Bluetooth (using UART1)
-  Bluetooth.begin(9600, SERIAL_8N1, 16, 17); // RX=16, TX=17 for UART1
-  Serial.begin(115200); // For debugging, using default Serial (USB)
-  
+  // Initialize the BluetoothSerial connection for communication with the user
   Serial.println("Flow sensor system initialized.");
-  Bluetooth.println("Flow sensor system initialized.");
+  BT.println("Flow sensor system initialized.");
 }
 
 // Main loop
 void loop() {
-  if (Bluetooth.available()) {
-    String receivedData = Bluetooth.readStringUntil('\n');
-    receivedData.trim();  // Remove any leading/trailing spaces or newline characters
+  if (BT.available()) {
+    String receivedData = BT.readStringUntil('\n'); // Read the data until a newline
+    receivedData.trim(); // Remove leading/trailing spaces or newlines
 
-    if (receivedData == "50") {
+    // Convert received data to an integer
+    double receivedValue = receivedData.toDouble(); // Convert to integer for comparison
+
+    // Check if the value matches predefined volumes or is a custom valid value
+    if (receivedValue == 50) {
       calibrate(50); // Start calibration for 50 mL
-    } else if (receivedData == "100") {
+    } else if (receivedValue == 100) {
       calibrate(100); // Start calibration for 100 mL
-    } else if (receivedData.toInt() > 0) {
-      double customVolume = receivedData.toInt();  // Custom volume (in mL)
-      calibrate(customVolume);
+    } else if (receivedValue > 0) { 
+      calibrate(receivedValue); // Custom volume (in mL)
     } else {
-      Bluetooth.println("Invalid command. Send '50', '100', or a custom value in mL.");
+      // If the input is invalid, notify the user via Bluetooth
+      BT.println("Invalid command. Send '50', '100', or a custom positive value in mL.");
     }
   }
 
