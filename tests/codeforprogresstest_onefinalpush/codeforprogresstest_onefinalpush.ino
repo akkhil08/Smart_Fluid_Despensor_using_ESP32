@@ -8,9 +8,9 @@ const char* password = "sqpu7168";
 WiFiServer server(80);
 
 // Pin Definitions  
-#define PUMP_PIN  18    // Relay for pump
+#define PUMP_PIN 40    // Relay for pump
 #define FLOW_SENSOR_PIN 4 // Flow sensor input
-#define PULSES_PER_LITER 63120  // Adjust based on sensor datasheet
+#define PULSES_PER_LITER 114750  // Adjust based on sensor datasheet
 
 // Global Variables
 volatile unsigned long pulseCount = 0;  // Prevent overflow
@@ -21,7 +21,7 @@ double sink=0;
 bool pumpRunning = false;
 
 // Flag to track when data changes
-bool dataUpdated = false;
+
 double progressPercentage = 0.0; // Added to track filling progress
 
 // Interrupt Service Routine (ISR) for flow sensor
@@ -45,10 +45,6 @@ void checkWiFi() {
 
 // Function to start pump and fill liquid
 void startFilling(double targetVolume) {
-  if (source < targetVolume) { // Prevent filling more than available
-    Serial.println("Not enough liquid in source.");
-    return;
-  }
 
   totalLiters = 0.0;
   totalPulses = 0;
@@ -78,7 +74,7 @@ void startFilling(double targetVolume) {
       progressPercentage = (totalLiters * 1000 / targetVolume) * 100;
 
       // Set flag to indicate data update
-      dataUpdated = true;
+
 
       Serial.println("Progress: " + String(progressPercentage) + "%");
       startTime = currentTime;
@@ -91,7 +87,6 @@ void startFilling(double targetVolume) {
   Serial.println("Pump Stopped");
 
   // Final data update
-  dataUpdated = true;
 }
 
 // Handle HTTP Requests
@@ -133,7 +128,7 @@ void handleRequest(WiFiClient& client) {
     client.print("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n");
     client.print("Reset done. Source refilled to 230 mL");
   } 
-  else if (request.indexOf("/start") != -1) { // Added endpoint for progress updates
+  else if (request.indexOf("/progress") != -1) { // Added endpoint for progress updates
     String jsonResponse = "{";
     jsonResponse += "\"source\": " + String(source, 2) + ","; // Include source with two decimal points
     jsonResponse += "\"sink\": " + String(totalLiters * 1000, 2) + ","; // Include sink in mL with two decimal points
@@ -143,7 +138,6 @@ void handleRequest(WiFiClient& client) {
     client.print("HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n");
     client.print(jsonResponse);
     Serial.println(jsonResponse);
-    dataUpdated = false;  // Reset update flag
   } 
   else {
     client.print("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n");
