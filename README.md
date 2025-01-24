@@ -6,7 +6,7 @@ A smart liquid dispenser dispenses liquid specified in application and it fetche
 ## List of components:
 - ESP32-S3-WROOM-2
 - L298N Motor Driver
-- 12V Water Uni-Directional Pump
+- 5V Water Uni-Directional Pump
 - Flow Sensor
 - 12K and 8k resistor
 - Power Supply (12V, 5V)
