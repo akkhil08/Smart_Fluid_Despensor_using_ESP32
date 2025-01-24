@@ -34,7 +34,6 @@ This project implements a liquid filling system using an ESP32. It controls a pu
 | **Endpoint**         | **Description**                                | **Example Request**              |
 |-----------------------|-----------------------------------------------|----------------------------------|
 | `/start?volume=X`     | Start filling the specified volume (in mL).   | `http://<IP_ADDRESS>/start?volume=100` |
-| `/stop`               | Stop filling immediately.                     | `http://<IP_ADDRESS>/stop`       |
 | `/reset`              | Reset source and sink values.                 | `http://<IP_ADDRESS>/reset`      |
 
 ## System Variables
@@ -61,7 +60,7 @@ This project implements a liquid filling system using an ESP32. It controls a pu
 
 ## Approach:
 ### Calibration:
-- Excel File with plots of pulse per litres used in algorithm.
+![Screenshot 2025-01-24 213614](https://github.com/user-attachments/assets/e621dc3b-4924-4070-89d4-34c3c32594ca)
 
 ### Circuit:
 - Level shifter using a MOSFET (Fixed with L298N) 
