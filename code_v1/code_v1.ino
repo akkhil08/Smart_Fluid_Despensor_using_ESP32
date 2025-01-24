@@ -14,7 +14,7 @@ WiFiServer server(80);
 // Pin Definitions
 #define PUMP_PIN  40           // Relay for pump
 #define FLOW_SENSOR_PIN 4      // Flow sensor input
-#define PULSES_PER_LITER 90390 // Adjust based on sensor datasheet
+#define PULSES_PER_LITER 91500 // Adjust based on imperiacal data
 
 // Global Variables
 volatile unsigned long pulseCount = 0; 
