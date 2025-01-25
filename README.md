@@ -13,7 +13,6 @@ A smart liquid dispenser dispenses liquid specified in application and it fetche
 
 ## Pin-out configuration:
 
-
 This project implements a liquid filling system using an ESP32. It controls a pump and monitors liquid flow using a flow sensor. The system allows users to fill a target volume of liquid through a web interface.
 
 ## Pin Configuration
@@ -80,8 +79,8 @@ Video
 - [x] Calibration
 - [x] Mobile App  
 - [x] Comm with Wifi
-- [ ] System intergrationa and testing
-- [ ] Demo video 
-- [ ] Presentation
+- [x] System intergrationa and testing
+- [x] Demo video 
+- [x] Presentation
 
 ## References
