@@ -24,7 +24,6 @@ This project implements a liquid filling system using an ESP32. It controls a pu
 
 ## Features
 - **Start Filling**: Specify the volume of liquid to fill (1–250 mL).
-- **Stop Filling**: Interrupt filling manually.
 - **Reset System**: Reset the source and sink values to defaults.
 - **Web Interface**: Control the system through HTTP requests.
 
@@ -61,18 +60,7 @@ This project implements a liquid filling system using an ESP32. It controls a pu
 ### Calibration:
 ![Screenshot 2025-01-24 213614](https://github.com/user-attachments/assets/e621dc3b-4924-4070-89d4-34c3c32594ca)
 
-### Circuit:
-- Level shifter using a MOSFET (Fixed with L298N) 
-- Potential divider for PWM (step down from 5v to 3.3V) (Flow Sensor Test)
-
-### Code:
-- Interrupt (Flow sensor)
-- Started with BLE module but then shifted to Wifi instead
-- App (Wifi.h, etc.)
-- MIT App Blocks
-
 ## Final Results:
-Video
 
 
 ## To-do list:
