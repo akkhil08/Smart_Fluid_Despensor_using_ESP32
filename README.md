@@ -70,5 +70,3 @@ https://youtu.be/nC2cU2fNJ0U
 - [x] System intergrationa and testing
 - [x] Demo video 
 - [x] Presentation
-
-## References
