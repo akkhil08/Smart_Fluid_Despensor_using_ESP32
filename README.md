@@ -53,12 +53,12 @@ This project implements a liquid filling system using an ESP32. It controls a pu
    - Access the system via the ESP’s IP address in your browser.
 
 ## Circuit Diagram:
-![WhatsApp Image 2025-01-23 at 16 24 44_c0bc79d0](https://github.com/user-attachments/assets/febd2995-a222-4754-806d-06a7e1062639)
+https://github.com/akkhil08/Smart_Fluid_Despensor_using_ESP32/blob/main/blockdiagram.png
 
 
 ## Approach:
 ### Calibration:
-![Screenshot 2025-01-24 213614](https://github.com/user-attachments/assets/e621dc3b-4924-4070-89d4-34c3c32594ca)
+
 
 ## Final Results:
 https://youtu.be/nC2cU2fNJ0U
