@@ -58,7 +58,7 @@ https://github.com/akkhil08/Smart_Fluid_Despensor_using_ESP32/blob/main/blockdia
 
 ## Approach:
 ### Calibration:
-
+https://github.com/akkhil08/Smart_Fluid_Despensor_using_ESP32/blob/main/plot.png
 
 ## Final Results:
 https://youtu.be/nC2cU2fNJ0U
